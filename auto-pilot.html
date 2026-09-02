@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SenshiGuard — Edge WAF & Bot Shield</title>
+  <title>SenshiGuard — Autonomous Self-Healing Auto-Pilot</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
@@ -38,7 +38,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             Cloud Scanner
           </a>
-          <a href="firewall.html" class="sidebar-link active">
+          <a href="firewall.html" class="sidebar-link">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
             Edge WAF & Bots
           </a>
@@ -48,7 +48,7 @@
           </a>
 
           <div class="nav-section-title">⚡ Autonomous Game-Changers</div>
-          <a href="auto-pilot.html" class="sidebar-link">
+          <a href="auto-pilot.html" class="sidebar-link active">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
             Self-Healing Auto-Pilot
           </a>
@@ -91,33 +91,54 @@
         <div class="engine-status-box">
           <div>
             <span class="status-dot"></span>
-            <span style="font-weight: 600; font-size: 12px;">Cloud Engine v2.4</span>
+            <span style="font-weight: 600; font-size: 12px;">Auto-Pilot ON</span>
           </div>
-          <span class="engine-status-label">12ms latency</span>
+          <span class="engine-status-label">Autonomous</span>
         </div>
       </div>
     </aside>
 
     <main class="main-content">
       <header class="topbar">
-        <div style="font-size: 13px; color: var(--text-secondary);">
-          Active Firewall Shield: <strong style="color: #10B981;">Global Fleet Protection (100% Online)</strong>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="font-size: 13px; color: var(--text-secondary);">Senshi Autonomous Mode:</span>
+          <span class="badge" style="background: rgba(16, 185, 129, 0.15); color: #34D399; border: 1px solid rgba(16, 185, 129, 0.4);">
+            ● Auto-Pilot Fully Engaged (Zero Human Action Required)
+          </span>
         </div>
-        <button class="btn btn-primary btn-sm">+ Add Custom WAF Rule</button>
+        <button class="btn btn-primary btn-sm">Configure Guard Policy</button>
       </header>
 
       <div class="page-body">
         <div class="page-header">
           <div>
-            <h1 class="page-title">Edge Web Application Firewall & Bot Shield</h1>
-            <p class="page-subtitle">Real-time attack telemetry, brute-force IP rate limiting, and bad bot challenges.</p>
+            <h1 class="page-title">Autonomous Self-Healing WordPress</h1>
+            <p class="page-subtitle">Zero-click security automation: Senshi detects threats, verifies safe diffs in sandbox, and self-heals your WordPress sites automatically 24/7.</p>
           </div>
         </div>
 
+        <!-- Master Auto-Pilot Status Card -->
+        <div class="stat-card" style="border-color: rgba(16, 185, 129, 0.4); background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(13, 17, 26, 0.9) 100%); margin-bottom: 28px; padding: 28px;">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <span class="status-pill status-clean" style="margin-bottom: 8px;">INDUSTRY FIRST INNOVATION</span>
+              <h2 style="font-size: 20px; font-weight: 800; color: #FFF; margin-bottom: 6px;">Set It & Forget It: 100% Autonomous Site Defense</h2>
+              <p style="font-size: 13px; color: var(--text-secondary); max-width: 650px;">
+                No manual reviews, no alert fatigue, and no panic calls at 2 AM. Senshi automatically validates plugin integrity, intercepts zero-day exploits, and self-heals injected files after automated sandbox testing.
+              </p>
+            </div>
+            <div style="text-align: right;">
+              <div style="font-family: var(--font-sans); font-size: 36px; font-weight: 800; color: var(--accent-emerald);">42</div>
+              <div style="font-size: 12px; color: var(--text-muted);">Attacks Auto-Neutralized This Month</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Autonomous Action Log -->
         <div class="card-panel">
           <div class="card-panel-header">
-            <div class="card-panel-title">Real-Time Blocked Attacks Feed (Live Telemetry)</div>
-            <span class="status-pill status-clean">● Streaming live</span>
+            <div class="card-panel-title">Autonomous Self-Healing Activity Log (Last 7 Days)</div>
+            <span class="status-pill status-clean">● Verified 0 Downtime</span>
           </div>
 
           <div class="table-responsive">
@@ -125,39 +146,39 @@
               <thead>
                 <tr>
                   <th>Timestamp</th>
-                  <th>IP Address</th>
                   <th>Target Domain</th>
-                  <th>Attack Type</th>
-                  <th>Payload Sample</th>
-                  <th>Action Taken</th>
+                  <th>Incident Detected</th>
+                  <th>Autonomous Action Executed</th>
+                  <th>Sandbox Health Test</th>
+                  <th>Result</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td style="font-family: var(--font-mono); color: var(--text-muted);">17:09:12</td>
-                  <td><code>185.220.101.4</code></td>
+                  <td style="font-family: var(--font-mono); color: var(--text-muted);">Today, 04:12 AM</td>
                   <td>production-store.com</td>
-                  <td><span class="status-pill status-threat">SQL Injection</span></td>
-                  <td><code>/wp-login.php?user=' OR 1=1--</code></td>
-                  <td><strong style="color: var(--accent-crimson);">BLOCKED 403</strong></td>
+                  <td><span class="status-pill status-threat">Backdoor Drop Attempt</span></td>
+                  <td>Surgically stripped eval line + deployed edge IP jail rule</td>
+                  <td><span class="status-pill status-clean">✓ 200 OK Checkout</span></td>
+                  <td><strong style="color: #34D399;">Self-Healed in 420ms</strong></td>
                 </tr>
 
                 <tr>
-                  <td style="font-family: var(--font-mono); color: var(--text-muted);">17:09:14</td>
-                  <td><code>91.240.118.22</code></td>
+                  <td style="font-family: var(--font-mono); color: var(--text-muted);">Yesterday, 11:45 PM</td>
                   <td>agency-client-portal.io</td>
-                  <td><span class="status-pill status-patch">Scraper Bot</span></td>
-                  <td><code>User-Agent: Python-urllib/3.9</code></td>
-                  <td><strong style="color: var(--accent-amber);">JS CHALLENGED</strong></td>
+                  <td><span class="status-pill status-patch">New 0-Day CVE-2026-4412</span></td>
+                  <td>Auto-applied edge virtual patch before vendor disclosure</td>
+                  <td><span class="status-pill status-clean">✓ REST Tests Passed</span></td>
+                  <td><strong style="color: #34D399;">Proactively Protected</strong></td>
                 </tr>
 
                 <tr>
-                  <td style="font-family: var(--font-mono); color: var(--text-muted);">17:09:15</td>
-                  <td><code>45.154.255.8</code></td>
+                  <td style="font-family: var(--font-mono); color: var(--text-muted);">2 days ago, 02:30 AM</td>
                   <td>tokyo-design-lab.jp</td>
-                  <td><span class="status-pill status-threat">Brute Force</span></td>
-                  <td><code>xmlrpc.php (50 attempts / 3s)</code></td>
-                  <td><strong style="color: var(--accent-crimson);">IP JAILED 24H</strong></td>
+                  <td><span class="status-pill status-threat">Injected Spam Script in wp_posts</span></td>
+                  <td>Auto-sanitized malicious redirect tag in database row</td>
+                  <td><span class="status-pill status-clean">✓ Visual Render Pass</span></td>
+                  <td><strong style="color: #34D399;">Self-Healed in 180ms</strong></td>
                 </tr>
               </tbody>
             </table>

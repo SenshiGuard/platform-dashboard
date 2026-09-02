@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SenshiGuard — Edge WAF & Bot Shield</title>
+  <title>SenshiGuard — Instant Risk Scanner & Zero-Friction Audit</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
@@ -38,7 +38,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             Cloud Scanner
           </a>
-          <a href="firewall.html" class="sidebar-link active">
+          <a href="firewall.html" class="sidebar-link">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
             Edge WAF & Bots
           </a>
@@ -56,7 +56,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 6v12"/></svg>
             Checkout Loss Shield
           </a>
-          <a href="instant-audit.html" class="sidebar-link">
+          <a href="instant-audit.html" class="sidebar-link active">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg>
             Instant Risk Scanner
           </a>
@@ -91,9 +91,9 @@
         <div class="engine-status-box">
           <div>
             <span class="status-dot"></span>
-            <span style="font-weight: 600; font-size: 12px;">Cloud Engine v2.4</span>
+            <span style="font-weight: 600; font-size: 12px;">Magic Link</span>
           </div>
-          <span class="engine-status-label">12ms latency</span>
+          <span class="engine-status-label">Instant Connect</span>
         </div>
       </div>
     </aside>
@@ -101,63 +101,75 @@
     <main class="main-content">
       <header class="topbar">
         <div style="font-size: 13px; color: var(--text-secondary);">
-          Active Firewall Shield: <strong style="color: #10B981;">Global Fleet Protection (100% Online)</strong>
+          Instant Risk Auditor: <strong>No Plugin Install Required for Diagnostics</strong>
         </div>
-        <button class="btn btn-primary btn-sm">+ Add Custom WAF Rule</button>
       </header>
 
       <div class="page-body">
         <div class="page-header">
           <div>
-            <h1 class="page-title">Edge Web Application Firewall & Bot Shield</h1>
-            <p class="page-subtitle">Real-time attack telemetry, brute-force IP rate limiting, and bad bot challenges.</p>
+            <h1 class="page-title">Instant Zero-Friction Risk Scanner</h1>
+            <p class="page-subtitle">Type any WordPress URL to run an instant external security posture audit and pair with 1-click magic SSO link.</p>
           </div>
         </div>
 
+        <!-- Magic Scanner Input -->
+        <div class="card-panel" style="padding: 28px; background: linear-gradient(135deg, rgba(14, 165, 233, 0.08) 0%, rgba(13, 17, 26, 0.9) 100%); border-color: rgba(14, 165, 233, 0.3);">
+          <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 8px;">Run Instant 5-Second Security Audit</h2>
+          <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 20px;">
+            Audits exposed sensitive files, vulnerable WordPress core/plugin versions, SSL ciphers, and blacklist status instantly.
+          </p>
+
+          <div style="display: flex; gap: 12px; max-width: 650px;">
+            <input type="url" class="form-input" placeholder="https://client-wordpress-site.com" value="https://production-store.com">
+            <button class="btn btn-primary" style="flex-shrink: 0;">⚡ Run Free Audit</button>
+          </div>
+        </div>
+
+        <!-- Audit Results Card -->
         <div class="card-panel">
           <div class="card-panel-header">
-            <div class="card-panel-title">Real-Time Blocked Attacks Feed (Live Telemetry)</div>
-            <span class="status-pill status-clean">● Streaming live</span>
+            <div class="card-panel-title">Audit Report: production-store.com (Risk Score: 78/100)</div>
+            <button class="btn btn-primary btn-sm">⚡ 1-Click Magic Pair & Protect</button>
           </div>
 
           <div class="table-responsive">
             <table class="data-table">
               <thead>
                 <tr>
-                  <th>Timestamp</th>
-                  <th>IP Address</th>
-                  <th>Target Domain</th>
-                  <th>Attack Type</th>
-                  <th>Payload Sample</th>
-                  <th>Action Taken</th>
+                  <th>Audit Checkpoint</th>
+                  <th>Observed Status</th>
+                  <th>Risk Severity</th>
+                  <th>Senshi Auto-Fix Action</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td style="font-family: var(--font-mono); color: var(--text-muted);">17:09:12</td>
-                  <td><code>185.220.101.4</code></td>
-                  <td>production-store.com</td>
-                  <td><span class="status-pill status-threat">SQL Injection</span></td>
-                  <td><code>/wp-login.php?user=' OR 1=1--</code></td>
-                  <td><strong style="color: var(--accent-crimson);">BLOCKED 403</strong></td>
+                  <td>Exposed <code>/wp-config.php.bak</code> or debug logs</td>
+                  <td><span class="status-pill status-threat">❌ Publicly Accessible</span></td>
+                  <td><strong style="color: var(--accent-crimson);">CRITICAL</strong></td>
+                  <td>1-Click Virtual Patch to block public HTTP access</td>
                 </tr>
 
                 <tr>
-                  <td style="font-family: var(--font-mono); color: var(--text-muted);">17:09:14</td>
-                  <td><code>91.240.118.22</code></td>
-                  <td>agency-client-portal.io</td>
-                  <td><span class="status-pill status-patch">Scraper Bot</span></td>
-                  <td><code>User-Agent: Python-urllib/3.9</code></td>
-                  <td><strong style="color: var(--accent-amber);">JS CHALLENGED</strong></td>
+                  <td>Active Vulnerabilities in Public Plugins</td>
+                  <td><span class="status-pill status-patch">⚠️ 2 Known CVEs Detected</span></td>
+                  <td><strong style="color: var(--accent-amber);">HIGH</strong></td>
+                  <td>Auto-Deploy Edge Virtual Patch</td>
                 </tr>
 
                 <tr>
-                  <td style="font-family: var(--font-mono); color: var(--text-muted);">17:09:15</td>
-                  <td><code>45.154.255.8</code></td>
-                  <td>tokyo-design-lab.jp</td>
-                  <td><span class="status-pill status-threat">Brute Force</span></td>
-                  <td><code>xmlrpc.php (50 attempts / 3s)</code></td>
-                  <td><strong style="color: var(--accent-crimson);">IP JAILED 24H</strong></td>
+                  <td>Login Brute-Force Rate Limiting</td>
+                  <td><span class="status-pill status-threat">❌ Unprotected <code>xmlrpc.php</code></span></td>
+                  <td><strong style="color: var(--accent-amber);">MEDIUM</strong></td>
+                  <td>Auto-Enable Bot Challenge Shield</td>
+                </tr>
+
+                <tr>
+                  <td>Google Safe Browsing & Blacklist Status</td>
+                  <td><span class="status-pill status-clean">✓ Clean (Not Blacklisted)</span></td>
+                  <td><strong style="color: var(--accent-emerald);">CLEAN</strong></td>
+                  <td>Continuous Monitoring Active</td>
                 </tr>
               </tbody>
             </table>
