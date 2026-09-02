@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SenshiGuard — Edge WAF & Bot Shield</title>
+  <title>SenshiGuard — Sandbox Dry-Run & Micro-Rollback</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
@@ -38,7 +38,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             Cloud Scanner
           </a>
-          <a href="firewall.html" class="sidebar-link active">
+          <a href="firewall.html" class="sidebar-link">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
             Edge WAF & Bots
           </a>
@@ -60,7 +60,7 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/></svg>
             Supply Chain & Nulled
           </a>
-          <a href="quarantine.html" class="sidebar-link">
+          <a href="quarantine.html" class="sidebar-link active">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
             Sandbox Dry-Run
           </a>
@@ -77,9 +77,9 @@
         <div class="engine-status-box">
           <div>
             <span class="status-dot"></span>
-            <span style="font-weight: 600; font-size: 12px;">Cloud Engine v2.4</span>
+            <span style="font-weight: 600; font-size: 12px;">Sandbox Engine</span>
           </div>
-          <span class="engine-status-label">12ms latency</span>
+          <span class="engine-status-label">Isolated</span>
         </div>
       </div>
     </aside>
@@ -87,63 +87,53 @@
     <main class="main-content">
       <header class="topbar">
         <div style="font-size: 13px; color: var(--text-secondary);">
-          Active Firewall Shield: <strong style="color: #10B981;">Global Fleet Protection (100% Online)</strong>
+          Micro-Snapshot Engine: <strong>Automated Pre-Remediation Snapshots Active</strong>
         </div>
-        <button class="btn btn-primary btn-sm">+ Add Custom WAF Rule</button>
       </header>
 
       <div class="page-body">
         <div class="page-header">
           <div>
-            <h1 class="page-title">Edge Web Application Firewall & Bot Shield</h1>
-            <p class="page-subtitle">Real-time attack telemetry, brute-force IP rate limiting, and bad bot challenges.</p>
+            <h1 class="page-title">Sandbox Dry-Run & Micro-Rollback</h1>
+            <p class="page-subtitle">Never fear clicking "Clean". Test surgical diffs in an isolated cloud sandbox with automated headless checkout verification before touching production.</p>
           </div>
         </div>
 
         <div class="card-panel">
           <div class="card-panel-header">
-            <div class="card-panel-title">Real-Time Blocked Attacks Feed (Live Telemetry)</div>
-            <span class="status-pill status-clean">● Streaming live</span>
+            <div class="card-panel-title">Active Quarantine & Micro-Snapshots</div>
+            <span class="status-pill status-clean">● Instant Rollback Available</span>
           </div>
 
           <div class="table-responsive">
             <table class="data-table">
               <thead>
                 <tr>
+                  <th>Snapshot ID</th>
+                  <th>Domain</th>
+                  <th>Trigger Action</th>
+                  <th>Pre-Clean Verification</th>
                   <th>Timestamp</th>
-                  <th>IP Address</th>
-                  <th>Target Domain</th>
-                  <th>Attack Type</th>
-                  <th>Payload Sample</th>
-                  <th>Action Taken</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td style="font-family: var(--font-mono); color: var(--text-muted);">17:09:12</td>
-                  <td><code>185.220.101.4</code></td>
+                  <td><code>snp_94812_clean_wc</code></td>
                   <td>production-store.com</td>
-                  <td><span class="status-pill status-threat">SQL Injection</span></td>
-                  <td><code>/wp-login.php?user=' OR 1=1--</code></td>
-                  <td><strong style="color: var(--accent-crimson);">BLOCKED 403</strong></td>
+                  <td>Surgical Clean: <code>class-wc-session.php</code></td>
+                  <td><span class="status-pill status-clean">✓ Sandbox Health Passed (200 OK)</span></td>
+                  <td>12 mins ago</td>
+                  <td><button class="btn btn-secondary btn-sm">1-Click Rollback</button></td>
                 </tr>
 
                 <tr>
-                  <td style="font-family: var(--font-mono); color: var(--text-muted);">17:09:14</td>
-                  <td><code>91.240.118.22</code></td>
-                  <td>agency-client-portal.io</td>
-                  <td><span class="status-pill status-patch">Scraper Bot</span></td>
-                  <td><code>User-Agent: Python-urllib/3.9</code></td>
-                  <td><strong style="color: var(--accent-amber);">JS CHALLENGED</strong></td>
-                </tr>
-
-                <tr>
-                  <td style="font-family: var(--font-mono); color: var(--text-muted);">17:09:15</td>
-                  <td><code>45.154.255.8</code></td>
+                  <td><code>snp_94801_patch_cve</code></td>
                   <td>tokyo-design-lab.jp</td>
-                  <td><span class="status-pill status-threat">Brute Force</span></td>
-                  <td><code>xmlrpc.php (50 attempts / 3s)</code></td>
-                  <td><strong style="color: var(--accent-crimson);">IP JAILED 24H</strong></td>
+                  <td>Virtual Patch: CVE-2026-4412</td>
+                  <td><span class="status-pill status-clean">✓ REST API Verified</span></td>
+                  <td>3 hours ago</td>
+                  <td><button class="btn btn-secondary btn-sm">1-Click Rollback</button></td>
                 </tr>
               </tbody>
             </table>
