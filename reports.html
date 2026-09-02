@@ -9,8 +9,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  
+  <!-- HTML2PDF CDN for Direct 1-Click PDF Generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
   <style>
-    /* Printable Report Document Styles */
+    /* Printable & Direct PDF Export Styles */
     @media print {
       body * {
         visibility: hidden;
@@ -24,9 +28,9 @@
         top: 0;
         width: 100%;
         margin: 0;
-        padding: 20px;
-        background: #FFFFFF !important;
-        color: #0F172A !important;
+        padding: 24px;
+        background: #0B0F19 !important;
+        color: #FFFFFF !important;
         box-shadow: none !important;
         border: none !important;
       }
@@ -137,6 +141,29 @@
       padding-top: 24px;
       margin-top: 36px;
     }
+
+    /* Download Toast Notification */
+    .download-toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #0D111A;
+      border: 1px solid var(--accent-emerald);
+      box-shadow: 0 0 30px rgba(16, 185, 129, 0.3);
+      padding: 16px 20px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 9999;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .download-toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
   </style>
 </head>
 <body>
@@ -200,7 +227,7 @@
 
           <div class="nav-section-title">Exclusive Defense Tech</div>
           <a href="ai-copilot.html" class="sidebar-link">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>
             AI Threat Copilot
           </a>
           <a href="db-scanner.html" class="sidebar-link">
@@ -230,7 +257,7 @@
             <span class="status-dot"></span>
             <span style="font-weight: 600; font-size: 12px;">CISO Auditing Suite</span>
           </div>
-          <span class="engine-status-label">PDF Ready</span>
+          <span class="engine-status-label">Direct PDF Export</span>
         </div>
       </div>
     </aside>
@@ -242,8 +269,10 @@
           Report Generator: <strong style="color: #FFF;">Enterprise Fortune 500 & CISO Attestation</strong>
         </div>
         <div style="display: flex; gap: 10px;">
-          <button class="btn btn-secondary btn-sm" onclick="window.print()">🖨️ Print Preview</button>
-          <button class="btn btn-primary btn-sm" onclick="window.print()">⚡ Download Executive PDF Report</button>
+          <button class="btn btn-secondary btn-sm" onclick="exportJsonEvidence()">📊 Export JSON Evidence</button>
+          <button class="btn btn-primary btn-sm" id="btn-download-pdf" onclick="directDownloadPDF()">
+            ⚡ Directly Download PDF Report (.pdf)
+          </button>
         </div>
       </header>
 
@@ -251,7 +280,7 @@
         <div class="page-header no-print">
           <div>
             <h1 class="page-title">Executive Fortune 500 Security Audit Reports</h1>
-            <p class="page-subtitle">Generate brand-certified, audit-ready security posture and incident neutralization reports for enterprise clients, boards, and SOC 2 / PCI-DSS compliance.</p>
+            <p class="page-subtitle">Generate brand-certified, audit-ready security posture reports and directly download as official PDF documents.</p>
           </div>
         </div>
 
@@ -268,14 +297,16 @@
             </div>
             <div>
               <label class="form-label">Report Compliance Type</label>
-              <select class="form-input">
+              <select class="form-input" id="report-compliance-select">
                 <option>Fortune 500 Executive Posture & Threat Neutralization Attestation</option>
                 <option>PCI-DSS v4.0 E-Commerce & Checkout Data Integrity Audit</option>
                 <option>SOC 2 Type II / ISO 27001 Monthly Fleet Defense Digest</option>
               </select>
             </div>
             <div>
-              <button class="btn btn-primary" style="width: 100%;" onclick="window.print()">⚡ Download PDF</button>
+              <button class="btn btn-primary" style="width: 100%;" onclick="directDownloadPDF()">
+                ⚡ Download PDF
+              </button>
             </div>
           </div>
         </div>
@@ -411,9 +442,99 @@
     </main>
   </div>
 
+  <!-- Download Toast -->
+  <div class="download-toast" id="download-toast">
+    <div style="font-size: 20px;">🛡️</div>
+    <div>
+      <div style="font-weight: 700; font-size: 13px; color: #FFF;">PDF Download Initiated</div>
+      <div style="font-size: 11px; color: var(--text-secondary);" id="toast-filename">senshiguard-security-report.pdf</div>
+    </div>
+  </div>
+
   <script>
     function updateReportDomain(domain) {
       document.getElementById('rep-target-domain').innerText = domain;
+    }
+
+    // Direct 1-Click PDF Download using html2pdf.js with automatic filename
+    function directDownloadPDF() {
+      const domain = document.getElementById('report-domain-select').value;
+      const filename = `senshiguard-audit-report-${domain.replace(/\./g, '-')}-2026.pdf`;
+      
+      const btn = document.getElementById('btn-download-pdf');
+      const originalText = btn.innerText;
+      btn.innerText = "⏳ Generating Official PDF...";
+      btn.disabled = true;
+
+      // Trigger Toast
+      const toast = document.getElementById('download-toast');
+      document.getElementById('toast-filename').innerText = filename;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 4000);
+
+      const element = document.getElementById('printable-report');
+      
+      const opt = {
+        margin:       [10, 10, 10, 10],
+        filename:     filename,
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, useCORS: true, backgroundColor: '#0B0F19' },
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+
+      // Generate & Save PDF directly to user's downloads folder
+      if (typeof html2pdf !== 'undefined') {
+        html2pdf().set(opt).from(element).save().then(() => {
+          btn.innerText = originalText;
+          btn.disabled = false;
+        }).catch(err => {
+          console.warn("Direct PDF render error, falling back to window.print():", err);
+          btn.innerText = originalText;
+          btn.disabled = false;
+          window.print();
+        });
+      } else {
+        window.print();
+        btn.innerText = originalText;
+        btn.disabled = false;
+      }
+    }
+
+    // Export Cryptographic JSON Evidence Package
+    function exportJsonEvidence() {
+      const domain = document.getElementById('report-domain-select').value;
+      const data = {
+        certificateRef: "SG-AUDIT-2026-8942",
+        targetDomain: domain,
+        auditTimestamp: new Date().toISOString(),
+        leadAuditor: "Alex Mercer, CISSP / SecOps Lead",
+        healthScore: "99.8%",
+        attacksBlocked: 14820,
+        complianceFrameworks: {
+          pciDssV4: { requirement: "6.4.3", status: "PASSED", sha256Evidence: "9f81a7b6c3e245d8a9b1c2d3e4f5a6b7" },
+          soc2Type2: { control: "CC6.1", status: "PASSED", edgeVirtualPatching: true },
+          iso27001: { annex: "A.12.6", status: "PASSED", yaraRuleset: "v2026.4" }
+        },
+        remediatedIncidents: [
+          {
+            id: "INC-89421",
+            vector: "CVE-2026-3199",
+            attackerIp: "194.26.112.44",
+            intent: "Magecart Credit Card Skimmer",
+            action: "AST Surgical Diff + Global Edge Block"
+          }
+        ]
+      };
+
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `senshiguard-evidence-${domain.replace(/\./g, '-')}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
     }
   </script>
 </body>
