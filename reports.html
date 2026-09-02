@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SenshiGuard — Enterprise Fortune 500 Security Audit Reports</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+  <style>
+    /* Printable Report Document Styles */
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      .report-document, .report-document * {
+        visibility: visible;
+      }
+      .report-document {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        margin: 0;
+        padding: 20px;
+        background: #FFFFFF !important;
+        color: #0F172A !important;
+        box-shadow: none !important;
+        border: none !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+    }
+
+    .report-preview-wrapper {
+      background: #04060A;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 36px;
+      margin-top: 24px;
+      position: relative;
+    }
+
+    .report-document {
+      background: #0B0F19;
+      border: 1px solid rgba(255, 51, 102, 0.3);
+      border-radius: var(--radius-md);
+      padding: 40px;
+      max-width: 860px;
+      margin: 0 auto;
+      box-shadow: 0 0 50px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255, 51, 102, 0.1);
+      position: relative;
+    }
+
+    .report-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 2px solid rgba(255, 51, 102, 0.4);
+      padding-bottom: 24px;
+      margin-bottom: 28px;
+    }
+
+    .report-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .report-brand img {
+      width: 44px;
+      height: 44px;
+      filter: drop-shadow(0 0 10px rgba(255, 51, 102, 0.6));
+    }
+    .report-brand-title {
+      font-family: var(--font-heading);
+      font-size: 22px;
+      font-weight: 800;
+      color: #FFF;
+      letter-spacing: -0.02em;
+    }
+
+    .report-stamp {
+      border: 2px solid #10B981;
+      color: #10B981;
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      transform: rotate(-2deg);
+      background: rgba(16, 185, 129, 0.08);
+      box-shadow: 0 0 14px rgba(16, 185, 129, 0.2);
+    }
+
+    .report-section-title {
+      font-size: 13px;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--accent-crimson);
+      letter-spacing: 0.08em;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .metric-box-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+    .report-metric-box {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 14px;
+    }
+    .report-metric-val {
+      font-family: var(--font-mono);
+      font-size: 20px;
+      font-weight: 800;
+      color: #FFF;
+      margin-top: 4px;
+    }
+
+    .signature-box {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      border-top: 1px solid var(--border-subtle);
+      padding-top: 24px;
+      margin-top: 36px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar no-print">
+      <div>
+        <a href="index.html" class="sidebar-brand">
+          <div class="brand-icon">
+            <img src="assets/logo.svg" alt="SenshiGuard">
+          </div>
+          <div class="brand-text">
+            SENSHI<span style="color: var(--accent-crimson);">GUARD</span>
+            <span class="brand-kanji">戦士</span>
+          </div>
+        </a>
+
+        <div class="nav-section-title">Fleet Security</div>
+        <nav class="sidebar-nav">
+          <a href="index.html" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+            Overview
+          </a>
+          <a href="sites.html" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+            Sites Fleet
+          </a>
+          <a href="scanner.html" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Cloud Scanner
+          </a>
+          <a href="incident-forensics.html" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>
+            Attack Kill-Chain
+          </a>
+          <a href="reports.html" class="sidebar-link active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" x2="8" y1="13" y2="13"/><line x1="16" x2="8" y1="17" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            Audit PDF Reports
+          </a>
+          <a href="firewall.html" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            Edge WAF & Bots
+          </a>
+          <a href="vulnerabilities.html" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+            Virtual Patching
+          </a>
+
+          <div class="nav-section-title">⚡ Autonomous Game-Changers</div>
+          <a href="auto-pilot.html" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            Self-Healing Auto-Pilot
+          </a>
+          <a href="revenue-shield.html" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 6v12"/></svg>
+            Checkout Loss Shield
+          </a>
+          <a href="instant-audit.html" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg>
+            Instant Risk Scanner
+          </a>
+
+          <div class="nav-section-title">Exclusive Defense Tech</div>
+          <a href="ai-copilot.html" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/></svg>
+            AI Threat Copilot
+          </a>
+          <a href="db-scanner.html" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12c0 1.66 4 3 9 3s9-1.34 9-3"/></svg>
+            Database & Cron
+          </a>
+          <a href="supply-chain.html" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/></svg>
+            Supply Chain & Nulled
+          </a>
+          <a href="quarantine.html" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/><path d="m15 9-6 6"/><path d="m9 9 6 6"/></svg>
+            Sandbox Dry-Run
+          </a>
+          
+          <div class="nav-section-title">Configuration</div>
+          <a href="settings.html" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+            API & Keys
+          </a>
+        </nav>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="engine-status-box">
+          <div>
+            <span class="status-dot"></span>
+            <span style="font-weight: 600; font-size: 12px;">CISO Auditing Suite</span>
+          </div>
+          <span class="engine-status-label">PDF Ready</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="topbar no-print">
+        <div style="font-size: 13px; color: var(--text-secondary);">
+          Report Generator: <strong style="color: #FFF;">Enterprise Fortune 500 & CISO Attestation</strong>
+        </div>
+        <div style="display: flex; gap: 10px;">
+          <button class="btn btn-secondary btn-sm" onclick="window.print()">🖨️ Print Preview</button>
+          <button class="btn btn-primary btn-sm" onclick="window.print()">⚡ Download Executive PDF Report</button>
+        </div>
+      </header>
+
+      <div class="page-body">
+        <div class="page-header no-print">
+          <div>
+            <h1 class="page-title">Executive Fortune 500 Security Audit Reports</h1>
+            <p class="page-subtitle">Generate brand-certified, audit-ready security posture and incident neutralization reports for enterprise clients, boards, and SOC 2 / PCI-DSS compliance.</p>
+          </div>
+        </div>
+
+        <!-- Report Generation Configuration Bar -->
+        <div class="card-panel no-print" style="padding: 20px; margin-bottom: 24px;">
+          <div style="display: grid; grid-template-columns: 2fr 2fr 1fr; gap: 16px; align-items: flex-end;">
+            <div>
+              <label class="form-label">Select Target Enterprise Domain</label>
+              <select class="form-input" id="report-domain-select" onchange="updateReportDomain(this.value)">
+                <option value="production-store.com">production-store.com (WooCommerce E-Commerce Production)</option>
+                <option value="tokyo-design-lab.jp">tokyo-design-lab.jp (Enterprise Brand Portal)</option>
+                <option value="agency-client-portal.io">agency-client-portal.io (Agency Core Dashboard)</option>
+              </select>
+            </div>
+            <div>
+              <label class="form-label">Report Compliance Type</label>
+              <select class="form-input">
+                <option>Fortune 500 Executive Posture & Threat Neutralization Attestation</option>
+                <option>PCI-DSS v4.0 E-Commerce & Checkout Data Integrity Audit</option>
+                <option>SOC 2 Type II / ISO 27001 Monthly Fleet Defense Digest</option>
+              </select>
+            </div>
+            <div>
+              <button class="btn btn-primary" style="width: 100%;" onclick="window.print()">⚡ Download PDF</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================= OFFICIAL REPORT DOCUMENT ================= -->
+        <div class="report-preview-wrapper">
+          <div class="report-document" id="printable-report">
+            
+            <!-- Header -->
+            <div class="report-header">
+              <div class="report-brand">
+                <img src="assets/logo.svg" alt="SenshiGuard">
+                <div>
+                  <div class="report-brand-title">SENSHI<span style="color: var(--accent-crimson);">GUARD</span></div>
+                  <div style="font-size: 11px; color: var(--text-muted); letter-spacing: 0.05em;">ENTERPRISE CYBERSECURITY & THREAT OPERATIONS • 戦士</div>
+                </div>
+              </div>
+              <div style="text-align: right;">
+                <div class="report-stamp">✓ AUDIT CERTIFIED</div>
+                <div style="font-family: var(--font-mono); font-size: 11px; color: var(--text-muted); margin-top: 6px;">Ref: #SG-AUDIT-2026-8942</div>
+              </div>
+            </div>
+
+            <!-- Meta Details -->
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px; border-bottom: 1px solid var(--border-subtle); padding-bottom: 20px; margin-bottom: 24px;">
+              <div>
+                <span style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Prepared For Enterprise Client:</span>
+                <h2 style="font-size: 18px; font-weight: 800; color: #FFF; margin-top: 2px;" id="rep-target-domain">production-store.com</h2>
+                <p style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">
+                  High-Volume E-Commerce Platform • WooCommerce / Stripe Elements Integration
+                </p>
+              </div>
+              <div style="text-align: right; font-size: 12px;">
+                <div><span style="color: var(--text-muted);">Audit Period:</span> <strong>Aug 01 - Sep 02, 2026</strong></div>
+                <div><span style="color: var(--text-muted);">Lead Auditor:</span> <strong>Alex Mercer, CISSP / SecOps Lead</strong></div>
+                <div><span style="color: var(--text-muted);">Posture Status:</span> <strong style="color: #10B981;">A+ HARDENED (99.8%)</strong></div>
+              </div>
+            </div>
+
+            <!-- Key Executive Metrics -->
+            <div class="report-section-title">1. Executive Fleet Health & Threat Metrics</div>
+            <div class="metric-box-grid">
+              <div class="report-metric-box">
+                <div style="font-size: 11px; color: var(--text-muted);">Fleet Health Score</div>
+                <div class="report-metric-val" style="color: #10B981;">99.8%</div>
+                <div style="font-size: 10px; color: #34D399; margin-top: 2px;">✓ Zero Hack Warranty Active</div>
+              </div>
+              <div class="report-metric-box">
+                <div style="font-size: 11px; color: var(--text-muted);">Attacks Blocked (30d)</div>
+                <div class="report-metric-val" style="color: var(--accent-cyan);">14,820</div>
+                <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">SQLi, Botnets, Brute Force</div>
+              </div>
+              <div class="report-metric-box">
+                <div style="font-size: 11px; color: var(--text-muted);">Origin CPU Overhead</div>
+                <div class="report-metric-val" style="color: #10B981;">0.00%</div>
+                <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px;">Offloaded Cloud Engine</div>
+              </div>
+              <div class="report-metric-box">
+                <div style="font-size: 11px; color: var(--text-muted);">Surgical Clean SLA</div>
+                <div class="report-metric-val" style="color: var(--accent-crimson);">380ms</div>
+                <div style="font-size: 10px; color: #34D399; margin-top: 2px;">0.00% Server Downtime</div>
+              </div>
+            </div>
+
+            <!-- Incident Reconstruction Summary -->
+            <div class="report-section-title">2. Critical Incident Forensics & Neutralization Log</div>
+            <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 16px; margin-bottom: 24px; font-size: 12px; line-height: 1.6;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 6px;">
+                <strong style="color: #FFF;">Incident #INC-89421: Injected Backdoor & Credit Card Skimmer</strong>
+                <span style="color: #34D399; font-weight: 700;">● FULLY NEUTRALIZED</span>
+              </div>
+              <p style="color: var(--text-secondary); margin-bottom: 8px;">
+                <strong>Entry Vector:</strong> Unauthenticated Arbitrary File Upload in RevSlider (CVE-2026-3199) from attacker IP <code>194.26.112.44</code>.<br>
+                <strong>Attacker Intent:</strong> Injected evaluator hook into <code>class-wc-session-handler.php</code> to copy customer checkout parameters.<br>
+                <strong>Remediation Action:</strong> Senshi AST Surgical diff extracted the single malicious payload line; quarantined webshell <code>cache_bak.php</code>; purged rogue administrator <code>wp_system_admin</code>; deployed Edge Virtual Patch with 100% verified sandbox 200 OK checkout pass.
+              </p>
+            </div>
+
+            <!-- Compliance Proof -->
+            <div class="report-section-title">3. Enterprise Compliance & Cryptographic Proof</div>
+            <table class="data-table" style="font-size: 11px; margin-bottom: 28px;">
+              <thead>
+                <tr>
+                  <th>Compliance Framework</th>
+                  <th>Requirement Checked</th>
+                  <th>Audit Result</th>
+                  <th>Cryptographic Evidence</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>PCI-DSS v4.0 Requirement 6.4.3</strong></td>
+                  <td>Payment script & DOM integrity check</td>
+                  <td><strong style="color: #34D399;">PASSED</strong></td>
+                  <td>SHA-256: <code>9f81a7b...c3e2</code></td>
+                </tr>
+                <tr>
+                  <td><strong>SOC 2 Type II Security (CC6.1)</strong></td>
+                  <td>Vulnerability & zero-day mitigation</td>
+                  <td><strong style="color: #34D399;">PASSED</strong></td>
+                  <td>Edge Virtual Patch Active</td>
+                </tr>
+                <tr>
+                  <td><strong>ISO 27001 Annex A.12.6</strong></td>
+                  <td>Technical vulnerability management</td>
+                  <td><strong style="color: #34D399;">PASSED</strong></td>
+                  <td>YARA Ruleset v2026.4</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!-- Signatures & CISO Seal -->
+            <div class="signature-box">
+              <div>
+                <div style="font-family: var(--font-heading); font-weight: 800; color: #FFF; font-size: 14px;">SenshiGuard Security Operations</div>
+                <div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">Automated Cloud Defense Network & Human SecOps Team</div>
+                <div style="font-family: var(--font-mono); font-size: 10px; color: #64748B; margin-top: 6px;">Certificate ID: SG-CERT-8941094-PRO</div>
+              </div>
+              <div style="text-align: right;">
+                <div style="font-family: 'Space Grotesk', sans-serif; font-size: 16px; font-weight: 700; color: var(--accent-cyan); font-style: italic;">
+                  Alex Mercer
+                </div>
+                <div style="font-size: 11px; color: var(--text-muted); border-top: 1px solid var(--border-subtle); padding-top: 4px; margin-top: 4px;">
+                  Alex Mercer, Lead SecOps Analyst, CISSP
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script>
+    function updateReportDomain(domain) {
+      document.getElementById('rep-target-domain').innerText = domain;
+    }
+  </script>
+</body>
+</html>
