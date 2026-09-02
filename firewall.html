@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SenshiGuard — Edge WAF & Bot Shield</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
+</head>
+<body>
+  <div class="app-layout">
+    <aside class="sidebar">
+      <div>
+        <a href="index.html" class="sidebar-brand">
+          <div class="brand-icon">
+            <img src="assets/logo.svg" alt="SenshiGuard">
+          </div>
+          <div class="brand-text">
+            SENSHI<span style="color: var(--accent-crimson);">GUARD</span>
+            <span class="brand-kanji">戦士</span>
+          </div>
+        </a>
+
+        <div class="nav-section-title">Fleet Security</div>
+        <nav class="sidebar-nav">
+          <a href="index.html" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+            Overview
+          </a>
+          <a href="sites.html" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+            Sites Fleet
+          </a>
+          <a href="scanner.html" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            Cloud Scanner
+          </a>
+          <a href="firewall.html" class="sidebar-link active">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            Edge WAF & Bots
+          </a>
+          <a href="vulnerabilities.html" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" x2="12" y1="8" y2="12"/><line x1="12" x2="12.01" y1="16" y2="16"/></svg>
+            Virtual Patching
+          </a>
+          
+          <div class="nav-section-title">Configuration</div>
+          <a href="settings.html" class="sidebar-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+            API & Keys
+          </a>
+        </nav>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="engine-status-box">
+          <div>
+            <span class="status-dot"></span>
+            <span style="font-weight: 600; font-size: 12px;">Cloud Engine v2.4</span>
+          </div>
+          <span class="engine-status-label">12ms latency</span>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div style="font-size: 13px; color: var(--text-secondary);">
+          Active Firewall Shield: <strong style="color: #10B981;">Global Fleet Protection (100% Online)</strong>
+        </div>
+        <button class="btn btn-primary btn-sm">+ Add Custom WAF Rule</button>
+      </header>
+
+      <div class="page-body">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">Edge Web Application Firewall & Bot Shield</h1>
+            <p class="page-subtitle">Real-time attack telemetry, brute-force IP rate limiting, and bad bot challenges.</p>
+          </div>
+        </div>
+
+        <div class="card-panel">
+          <div class="card-panel-header">
+            <div class="card-panel-title">Real-Time Blocked Attacks Feed (Live Telemetry)</div>
+            <span class="status-pill status-clean">● Streaming live</span>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Timestamp</th>
+                  <th>IP Address</th>
+                  <th>Target Domain</th>
+                  <th>Attack Type</th>
+                  <th>Payload Sample</th>
+                  <th>Action Taken</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="font-family: var(--font-mono); color: var(--text-muted);">17:09:12</td>
+                  <td><code>185.220.101.4</code></td>
+                  <td>production-store.com</td>
+                  <td><span class="status-pill status-threat">SQL Injection</span></td>
+                  <td><code>/wp-login.php?user=' OR 1=1--</code></td>
+                  <td><strong style="color: var(--accent-crimson);">BLOCKED 403</strong></td>
+                </tr>
+
+                <tr>
+                  <td style="font-family: var(--font-mono); color: var(--text-muted);">17:09:14</td>
+                  <td><code>91.240.118.22</code></td>
+                  <td>agency-client-portal.io</td>
+                  <td><span class="status-pill status-patch">Scraper Bot</span></td>
+                  <td><code>User-Agent: Python-urllib/3.9</code></td>
+                  <td><strong style="color: var(--accent-amber);">JS CHALLENGED</strong></td>
+                </tr>
+
+                <tr>
+                  <td style="font-family: var(--font-mono); color: var(--text-muted);">17:09:15</td>
+                  <td><code>45.154.255.8</code></td>
+                  <td>tokyo-design-lab.jp</td>
+                  <td><span class="status-pill status-threat">Brute Force</span></td>
+                  <td><code>xmlrpc.php (50 attempts / 3s)</code></td>
+                  <td><strong style="color: var(--accent-crimson);">IP JAILED 24H</strong></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
